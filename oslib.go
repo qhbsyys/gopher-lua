@@ -17,6 +17,10 @@ func getIntField(L *LState, tb *LTable, key string, v int) int {
 	ret := tb.RawGetString(key)
 	if ln, ok := ret.(LNumber); ok {
 		return int(ln)
+	} else if ls := LVAsString(ret); len(ls) > 0 {
+		if num, err := parseNumber(ls); err == nil {
+			return int(num)
+		}
 	}
 	return v
 }
